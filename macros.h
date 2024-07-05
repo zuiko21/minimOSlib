@@ -1,7 +1,7 @@
 ; minimOSlib 0.7a1 MACRO definitions
 ; adapted to generic 65xx firmware
 ; (c) 2012-2024 Carlos J. Santisteban
-; last modified 20240704-1714
+; last modified 20240705-1027
 
 ; **************************
 ; *** standard addresses ***
@@ -10,13 +10,22 @@
 ; *** new BIOS/BDOS jumptable interface *** stub
 b_gestalt	=	$FF00	; GESTALT, return machine type
 b_conio		=	$FF03	; CONIO, non-locking console I/O
-;b_xxxxx	=	$FF06
+b_gamepad	=	$FF06	; GAMEPAD status
+b_auxio		=	$FF09	; AUXIO, auxiliary I/O device * TBD
+b_select	=	$FF0C	; SELECT mass-storage device
+b_buffer	=	$FF0F	; BUFFER, set mass-storage 512-byte buffer address * REALLY?
+b_read		=	$FF12	; READ sector from selected device into buffer
+b_write		=	$FF15	; WRITE buffer into sector of selected device
+b_devini	=	$FF18	; DEVINI, intialise mass-storage device for use (or look for responding one)
+b_time		=	$FF1B	; TIME, get RTC data (or set RTC)
+
+; might put BDOS calls from $FF60...
 
 ; *** classic minimOS addresses *** TBD
 kerncall	=	$FFC0	; ending in RTS/RTI, 816 will use COP handler and a COP,RTS wrapper for 02
 ;adm_call	=	$FFDA	; ending in RTS, intended for kernel/drivers ONLY, revamped address
 ;adm_appc	=	$FFD0	; special interface for 65816 firmware call from USER software!
-rom_id		=	$FFD6	; new "DmOS" (Durango/36 pin) or "VmOS" (Veracruz/44 pin) cartridge ID
+rom_id		=	$FFD6	; new "DmOS" (6502/Durango/36 pin) or "VmOS" (65816/Veracruz/44 pin) cartridge ID
 rom_switch	=	$FFE1	; new location of JMP ($FFFC) as standard for shadow-RAM systems
 signature	=	$FFEC	; Fletcher-16 checksum ** new address, supposedly 816-savvy
 cpu_lock	=	$FFF0	; more-or-less 816 savvy address ** new label AND address!
